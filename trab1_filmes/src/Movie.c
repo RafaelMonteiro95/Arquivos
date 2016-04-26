@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "Movie.h"
 
@@ -78,6 +79,7 @@ int *Rand_Num()
 		i=0;
 
 		/*srand eh necessaria para gerar numeros aleatorios distintos toda vez que o computador seja inicializado*/
+		srand(time(NULL));
 		//srand(time(NULL));
 		while(i != 100)
 		 {
