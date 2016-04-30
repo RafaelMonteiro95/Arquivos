@@ -12,29 +12,33 @@ retorna o tamanho da string lida excluindo o caractere \0
 autor: Rafael*/
 int fread_str(FILE* fp, char* string)
 {
-	printf("oi\n");
+	char* buffer = NULL;
 	int sizeCounter = 0;
 	int curSize = 100;
 	char c;
 
-	//realoco o tamanho da string passada
-	string = realloc(string,sizeof(char)*curSize);
+	//realoco o tamanho da buffer passada
+	buffer = realloc(buffer,sizeof(char)*curSize);
 
 	//leio do arquivo até encontrar um delimitadores
 	do{
 		fread(&c,sizeof(char),1,fp);
 		//caso seja um caractere valido
-		if(c != REG_DELIM){
+		if(c != FIELD_DELIM){
 			sizeCounter++;
 			//verifico se preciso ampliar o buffer
 			if(sizeCounter >= curSize){
-				string = (char*)realloc(string,sizeof(char)*(curSize+20));
+				buffer = (char*)realloc(buffer,sizeof(char)*(curSize++));
 			}
 			//guardo o valor lido
-			string[sizeCounter-1] = c;
+			buffer[sizeCounter-1] = c;
 		}
-	} while(c!= REG_DELIM);
-	string[sizeCounter] = '\0';
+	} while(c != FIELD_DELIM);
+	buffer[sizeCounter] = '\0';
+
+	strcpy(string,buffer);
+
+	free(buffer);
 
 	//retorno o numero de caracteres lidos e escritos em string
 	return sizeCounter;
@@ -53,20 +57,21 @@ Filme* getFilme(FILE* fp, int n){
 
 
 	//pulando registros 1...(n-1)
-	while(n>=0){
-		fread(&marcador, sizeof marcador,1,fp);
-		while(marcador!=REG_DELIM){
-			fread(&marcador, sizeof marcador,1,fp);
-		}
-		n--;
-	}
+	// while(n>=0){
+	// 	fread(&marcador, sizeof marcador,1,fp);
+	// 	while(marcador!=REG_DELIM){
+	// 		fread(&marcador, sizeof marcador,1,fp);
+	// 	}
+	// 	n--;
+	// }
 
-	//Verifica Se registro existe e esta dentro do arquivo			
-	if(fread(&(filme->idFilme),sizeof filme->idFilme,1,fp)<1){
-		return NULL;
-	}
+	// //Verifica Se registro existe e esta dentro do arquivo			
+	// if(fread(&(filme->idFilme),sizeof filme->idFilme,1,fp)<1){
+	// 	return NULL;
+	// }
 
 	//lendo campos de tamanho fixo
+	fread(&(filme->idFilme), sizeof filme->idFilme, 1, fp );
 	// fread(&marcador, sizeof marcador,1,fp);
 	fread(&(filme->anoLancamento), sizeof filme->anoLancamento, 1, fp );
 	// fread(&marcador, sizeof marcador,1,fp);
@@ -95,6 +100,8 @@ Filme* getFilme(FILE* fp, int n){
 
 	fread_str(fp,buffer);
 	strcpy(filme->producao,buffer);
+
+	fseek(fp,1,SEEK_CUR);
 
 	free(buffer);
 

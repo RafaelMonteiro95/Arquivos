@@ -24,6 +24,7 @@ int main()
 	FILE* txt = NULL;
 	FILE* bin = NULL;
 	Filme* temp;
+	int num = 18;
 	int op;
 	int i;
 
@@ -50,14 +51,17 @@ int main()
 			op = checkInput();
 			switch(op){
 				case 1: //gerar 100 registros
-					buildBinFile(bin,txt,19);
+					buildBinFile(bin,txt,num+1);
 					getchar();
 					break;
 				case 2: //exibir todos os registros
-					for(i = 0; i < 18; i++){
+					getchar();
+					rewind(bin);
+					for(i = 0; i < num; i++){
 						temp = getFilme(bin,i);
 						PrintFilme(temp);
-						printf("Pressione enter para o proximo filme\n");
+						if(i != num-1)printf("\nPressione enter para o proximo filme\n");
+						else printf("pressione enter para voltar ao menu\n");
 						getchar();
 					}
 					break;

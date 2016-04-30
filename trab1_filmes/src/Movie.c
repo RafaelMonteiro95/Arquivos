@@ -97,84 +97,13 @@ int *Rand_Num()
 	return aux;
  }
 
- /*Funcao que insere em dois arquivos, um de texto e um outro binario.
- O arquivo de texto eh usado meramente para debug, para que possamos saber
- se os arquivos estao sendo gravados de fato.
- Ela recebe como parametros dois aquivos, um vetor para armazenar os tamanhos
- das strings e o tamanho total de cada registro. Os delimitadores dos campos sao
- o seguinte caracter "|" e dos registros "#"*/
-void Insert_in_File(FILE *fp, FILE *Text, int *size)
- {
-	/*Inicia-se a variavel f, do tipo Filme*/
-	Filme *f = Inicialize_Struct();
-	/*Caracteres de fim de campos e registros*/
-	/*Delimitadores e char para uso no loop*/
-	char endRegister, endField;
-	/*i serve para indice do array e o tam tem o tamanho total do registo*/
-	int i = 0, tam = 0;
+// int* Rand_Num()
+// {
+// 	int* values = NULL;
+// 	char* valid = NULL;
 
- /*Enquanto nao estive no final do arquivo, continua no loop*/
-	while(fscanf(Text, "%d %c", &f->idFilme, &endRegister)>0)
-	{
-		/*Recupera o campo do arquivo txtm, assim como os delimitadores!*/
-		fscanf(Text, "%d %c", &f->anoLancamento, &endRegister);
-		fscanf(Text, "%d %c\n", &f->duracaoFilme,&endRegister);
-
-		/*Recupera o campo do arquivo txtm, assim como os delimitadores! Alem de colocar no array de tamanhos o tamanho da string*/
-		fgets(f->tituloFilme, STRING_SIZE,  Text);
-		size[i] = strlen(f->tituloFilme);
-		fscanf(Text, "%c", &endField);
-		i++;
-
-		/*Recupera o campo do arquivo txtm, assim como os delimitadores! Alem de colocar no array de tamanhos o tamanho da string*/
-		fgets(f->generoFilme, STRING_SIZE, Text);
-		size[i] = strlen(f->generoFilme);
-		fscanf(Text, "%c", &endField);
-		i++;
-
-		/*Recupera o campo do arquivo txtm, assim como os delimitadores! Alem de colocar no array de tamanhos o tamanho da string*/
-		fgets(f->descFilme, STRING_SIZE, Text);
-		size[i] = strlen(f->descFilme);
-		fscanf(Text, "%c", &endField);
-		i++;
-
-		/*Recupera o campo do arquivo txtm, assim como os delimitadores! Alem de colocar no array de tamanhos o tamanho da string*/
-		fgets(f->producao, STRING_SIZE, Text);
-		size[i] = strlen(f->producao);
-		fscanf(Text, "%c %c", &endField, &endRegister);
-		i++;
-
-		/*Array com o tamanho total do registro no array, soma dos inteiros, tamanhos de string e delimitadores*/
-		tam = (strlen(f->producao)+ strlen(f->descFilme) + strlen(f->generoFilme) + strlen(f->tituloFilme) + 3*sizeof(int) + 7*sizeof(char));
-		size[i] = tam ;
-		i++;
-
-		/*Escreve registros no arquivo binario!!!*/
-		fwrite(&f->idFilme, sizeof(int), 1 , fp);
-		fwrite(&endField, sizeof(char), 1 , fp);
-
-		fwrite(&f->anoLancamento, sizeof(int), 1 , fp);
-		fwrite(&endField, sizeof(char), 1 , fp);
-
-		fwrite(&f->duracaoFilme, sizeof(int), 1 , fp);
-		fwrite(&endField, sizeof(char), 1 , fp);
-
-		fwrite(f->tituloFilme, strlen(f->tituloFilme), 1 , fp);
-		fwrite(&endField, sizeof(char), 1 , fp);
-
-		fwrite(f->generoFilme, strlen(f->generoFilme), 1 , fp);
-		fwrite(&endField, sizeof(char), 1 , fp);
-
-		fwrite(f->descFilme, strlen(f->descFilme), 1 , fp);
-		fwrite(&endField, sizeof(char), 1 , fp);
-
-		fwrite(f->producao, strlen(f->producao), 1 , fp);
-		fwrite(&endField, sizeof(char), 1 , fp);
-
-		fwrite(&endRegister, sizeof(char), 1 , fp);
-	}
-	printf("Dados recuperados com sucesso!\n");
- }
+// 	values = (int*)calloc(sizeof(values))
+// }
 
 void PrintFilme(Filme *filme){
 
@@ -200,9 +129,12 @@ void fprintf_str(FILE* fp, char* str)
 		fprintf(fp,"%c",str[i++]);
 	}
 }
-//num eh o numero de registros no arquivo de texto
-//used eh um vetor que marca qual valor ja foi utilizado
-//fp eh o ponteiro do arquivo txt com os filmes
+/*essa funcao da seek no arquivo txt buscando um registro que ainda
+nao tenha sido inserido no arquivo binario
+parametros:
+num eh o numero de registros no arquivo de texto
+used eh um vetor que marca qual valor ja foi utilizado
+fp eh o ponteiro do arquivo txt com os filmes*/
 void seekToRandomPos(FILE* fp, char* used, int num)
 {
 	char bfr;
@@ -219,9 +151,9 @@ void seekToRandomPos(FILE* fp, char* used, int num)
 			fprintf(stderr,"failed to seek to random pos\n");
 			break;
 		}
-	}while(used[limit]);
+	}while(used[limit]); //busco enquanto nao encontrar uma posicao valida
 
-	used[limit] = 1;
+	used[limit] = 1; //marco que a posicao encontrada foi utilizada
 
 	//me preparo para a leitura
 	rewind(fp);
@@ -235,6 +167,9 @@ void seekToRandomPos(FILE* fp, char* used, int num)
 		bfr = fgetc(fp);
 		if(bfr == '\n')count++;
 	}
+
+	/*pronto! ja coloquei o ponteiro do arquivo na posicao correta de
+	leitura.*/
 }
 
 /*Funcao que preenche um arquivo binario de dados com base em um
@@ -272,12 +207,12 @@ void buildBinFile(FILE* bin, FILE* txt, int num)
 	f = Inicialize_Struct();
 	//gero uma lista com ids aleatorios
 	randomIds = Rand_Num();
-	//gero uma lista marcando quais vetores ja foram utilizados
+	//gero uma lista marcando quais 'RRN's do arquivo txt ja foram utilizados
 	alreadyUsed = (char*)calloc(num,sizeof(char));
-	//leio 100 registros do arquivo de texto
+	//leio 'num' registros do arquivo de texto
 	for(readCount = 0; readCount < num; readCount++){
 
-		//preciso dar seek para uma posicao aleatoria
+		//preciso dar seek para um registro aleatorio do arquivo txt
 		//para isso, vou salvar em um vetor quais "RRNs" ja foram colocados
 		//depois, dou seek até aquela posicao
 		seekToRandomPos(txt,alreadyUsed,num);
