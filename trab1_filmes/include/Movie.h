@@ -59,7 +59,7 @@ char *GetDescription(Filme *f);
 void Insert_in_File(FILE *fp, FILE *Text, int *size);
 //void Insert_in_Text(FILE *Text, int ID);
 
-Filme* getFilme(FILE* fp, int n);
+Filme* getFilme(FILE* fp);
 Filme* getFilmeById(FILE* fp, int id);
 
 void PrintFilme(Filme *filme);

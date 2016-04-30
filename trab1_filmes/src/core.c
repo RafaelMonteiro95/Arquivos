@@ -44,66 +44,58 @@ int fread_str(FILE* fp, char* string)
 	return sizeCounter;
 }
 
+void seek_delim(FILE* fp, char delim)
+{
+	char c;
 
-//Metodo retorna o struct do filme de numero n na lista de filme que se encontra no arquivo binario fp
-//caso o numero nao exista o retorno eh NULL! Logo exige teste de existencia sempre que usada para evitar seg fault 
-//n vai ate o (numero de filmes -1)
-//author: Kaue
-Filme* getFilme(FILE* fp, int n){
+	//leio do arquivo até encontrar um delimitadores
+	do{
+		fread(&c,sizeof(char),1,fp);
+	} while(c != delim);
+}
 
-	Filme* filme = Inicialize_Struct();
+/* funcao que le um registro do tipo Filme de um arquivo binario dado
+	por fp.*/
+void fread_Filme(FILE* fp, Filme* filme)
+{
 	char* buffer = malloc(sizeof(char)*500);
-	char marcador;
-
-
-	//pulando registros 1...(n-1)
-	// while(n>=0){
-	// 	fread(&marcador, sizeof marcador,1,fp);
-	// 	while(marcador!=REG_DELIM){
-	// 		fread(&marcador, sizeof marcador,1,fp);
-	// 	}
-	// 	n--;
-	// }
-
-	// //Verifica Se registro existe e esta dentro do arquivo			
-	// if(fread(&(filme->idFilme),sizeof filme->idFilme,1,fp)<1){
-	// 	return NULL;
-	// }
 
 	//lendo campos de tamanho fixo
-	fread(&(filme->idFilme), sizeof filme->idFilme, 1, fp );
-	// fread(&marcador, sizeof marcador,1,fp);
-	fread(&(filme->anoLancamento), sizeof filme->anoLancamento, 1, fp );
-	// fread(&marcador, sizeof marcador,1,fp);
-	fread(&(filme->duracaoFilme), sizeof filme->duracaoFilme, 1, fp );
-	// fread(&marcador, sizeof marcador,1,fp);	
-	// fread(&marcador, sizeof marcador,1,fp);
+	fread(&(filme->idFilme), sizeof(int), 1, fp );
+	fread(&(filme->anoLancamento), sizeof(int), 1, fp );
+	fread(&(filme->duracaoFilme), sizeof(int), 1, fp );
 
-
-	//A partir daqui comeca a leitura dos campos de tamanho variavel
-
-	//fica para proxima melhoria modularizar a funcao para pegar uma string
-	//de um stream antes de um separador(no caso, FIELD_DELIM)
-	//feito! by Rafael
-
+	//lendo campos de tamanho variavel
 	fread_str(fp,buffer);
 	strcpy(filme->tituloFilme,buffer);
-
 
 	fread_str(fp,buffer);
 	strcpy(filme->generoFilme,buffer);
 
-
 	fread_str(fp,buffer);
 	strcpy(filme->descFilme,buffer);
-
 
 	fread_str(fp,buffer);
 	strcpy(filme->producao,buffer);
 
+	//pulando o delimitador de registro
 	fseek(fp,1,SEEK_CUR);
 
+	//liberando a memoria utilizada
 	free(buffer);
+}
+
+
+//Metodo retorna o struct do filme de numero n na lista de filme que se encontra no arquivo binario fp
+//caso o numero nao exista o retorno eh NULL! Logo exige teste de existencia sempre que usada para evitar seg fault 
+//n vai ate o (numero de filmes -1)
+//author: Kaue, Rafael
+//na vdd soh leh o proximo filme do arquivo bin
+Filme* getFilme(FILE* fp){
+
+	Filme* filme = Inicialize_Struct();
+
+	fread_Filme(fp,filme);
 
 	return filme;
 }
@@ -115,91 +107,21 @@ Filme* getFilme(FILE* fp, int n){
 //author: Kaue
 Filme* getFilmeById(FILE* fp, int id){
 
-	Filme* filme = Inicialize_Struct();
+	Filme* filme = Inicialize_Struct();;
 	char* buffer = malloc(sizeof(char)*500);
-	char marcador;
+	int searchId;
 
-
-
-
-	//Pesquisa do registro de ID N	
-	if(fread(&(filme->idFilme),sizeof filme->idFilme,1,fp)<1){
-		return NULL;
-	}
-
-	while(filme->idFilme != id){
-		
-		fread(&marcador, sizeof marcador,1,fp);
-		while(marcador!=REG_DELIM){
-			fread(&marcador, sizeof marcador,1,fp);
-		}
-
-		if(fread(&(filme->idFilme),sizeof filme->idFilme,1,fp)<1){
-			return NULL;
-		}
+	while(fgetc(fp) != EOF){
+		fseek(fp,-1*sizeof(char),SEEK_CUR);
+		//leio o delimitador
+		fread(&searchId, sizeof(int), 1, fp );
+		fseek(fp,-1*sizeof(int),SEEK_CUR);
+		fread_Filme(fp,filme);
+		//verifico se encontrei
+		if(filme->idFilme == id) return filme;
 
 	}
 
-
-	//lendo campos de tamanho fixo
-	fread(&marcador, sizeof marcador,1,fp);
-	fread(&(filme->anoLancamento), sizeof filme->anoLancamento, 1, fp );
-	fread(&marcador, sizeof marcador,1,fp);
-	fread(&(filme->duracaoFilme), sizeof filme->duracaoFilme, 1, fp );
-	fread(&marcador, sizeof marcador,1,fp);	
-	fread(&marcador, sizeof marcador,1,fp);
-
-
-	//A partir daqui comeca a leitura dos campos de tamanho variavel
-
-	//fica para proxima melhoria modularizar a funcao para pegar uma string
-	//de um stream antes de um separador(no caso, FIELD_DELIM)
-
-	int contador = 0;
-	while(marcador!=FIELD_DELIM){
-		buffer[contador]= marcador;
-		fread(&marcador, sizeof marcador,1,fp);
-		contador++;
-	}
-	fread(&marcador, sizeof marcador,1,fp);
-
-	buffer[contador] = '\0';
-	strcpy(filme->tituloFilme,buffer);
-
-
-	contador = 0;
-	while(marcador!=FIELD_DELIM){
-		buffer[contador]= marcador;
-		fread(&marcador, sizeof marcador,1,fp);
-		contador++;
-	}
-	fread(&marcador, sizeof marcador,1,fp);
-
-	buffer[contador] = '\0';
-	strcpy(filme->generoFilme,buffer);
-
-
-	contador = 0;
-	while(marcador!=FIELD_DELIM){
-		buffer[contador]= marcador;
-		fread(&marcador, sizeof marcador,1,fp);
-		contador++;
-	}
-	fread(&marcador, sizeof marcador,1,fp);
-	buffer[contador] = '\0';
-	strcpy(filme->descFilme,buffer);
-
-
-	contador = 0;
-	while(marcador!=FIELD_DELIM){
-		buffer[contador]= marcador;
-		fread(&marcador, sizeof marcador,1,fp);
-		contador++;
-	}
-	buffer[contador] = '\0';
-	strcpy(filme->producao,buffer);
-
-	free(buffer);
-
-	return filme;
+	return NULL;
 }
+
