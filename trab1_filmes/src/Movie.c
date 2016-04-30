@@ -80,6 +80,7 @@ int *Rand_Num()
 
 		/*srand eh necessaria para gerar numeros aleatorios distintos toda vez que o computador seja inicializado*/
 		srand(time(NULL));
+		
 		//srand(time(NULL));
 		while(i != 100)
 		 {
@@ -96,69 +97,6 @@ int *Rand_Num()
 	return aux;
  }
 
-
-void Insert_in_Text(FILE *Text, int ID)
- {
-	/*Inicia-se a variavel f*/
-	Filme *f = Inicialize_Struct();
-	/*Caracteres de fim de campos e registros*/
-	char End_Register = REG_DELIM;
-	char End_Field = FIELD_DELIM;
-
-		/*Escreve-se a ID do registro nos arquivos*/
-		f->idFilme = ID;
-						fprintf(Text, "%d", f->idFilme);
-								fprintf(Text, "%c\n", End_Field);
-
-		/*Escreve-se o ano de lancamento no arquivo*/
-		printf("Digite o ano de lancamento: ");
-				fscanf(stdin, "%d", &f->anoLancamento);
-								fprintf(Text, "%d", f->anoLancamento);
-										fprintf(Text, "%c\n", End_Field);
-
-		/*Escreve-se a duracao do filme no arquivo*/
-		printf("Digite a duracao: ");
-		fscanf(stdin, "%d", &f->duracaoFilme);
-				fprintf(Text, "%d", f->duracaoFilme);
-						fprintf(Text, "%c\n", End_Field);
-
-	/*Limpa o buffer, para que nao se pegue lixo ao usar a fgets para ler do teclado*/
-	fflush(stdin);
-
-		/*Coloca-se no arquivo o titulo do filme*/
-		printf("Digite o nome: ");
-				fgets(f->tituloFilme, STRING_SIZE, stdin);
-						fprintf(Text, "%s", f->tituloFilme);
-								fprintf(Text, "%c", End_Field);
-
-		/*Coloca-se no arquivo o genero do filme*/
-		printf("Digite o genero: ");
-				fgets(f->generoFilme, STRING_SIZE, stdin);
-						fprintf(Text, "%s", f->generoFilme);
-								fprintf(Text, "%c", End_Field);
-
-		/*Coloca-se no arquivo a sinopse do filme*/
-		printf("Digite a sinopse: ");
-				fgets(f->descFilme, STRING_SIZE,  stdin);
-						fprintf(Text, "%s", f->descFilme);
-								fprintf(Text, "%c", End_Field);
-
-		/*Coloca-se no arquivo o pais de producao do filme*/
-		printf("Digite o pais de producao: ");
-				fgets(f->producao, STRING_SIZE, stdin);
-						fprintf(Text, "%s", f->producao);
-								fprintf(Text, "%c", End_Field);
-
-		/*Coloca-se no arquivo o indicador de fim do registro*/
-		fprintf(Text, "%c\n", End_Register);
-
-
-	printf("\n");
-	/*Desaloca a struct*/
-	Destroy_Struct(&f);
- }
-
-
  /*Funcao que insere em dois arquivos, um de texto e um outro binario.
  O arquivo de texto eh usado meramente para debug, para que possamos saber
  se os arquivos estao sendo gravados de fato.
@@ -171,69 +109,69 @@ void Insert_in_File(FILE *fp, FILE *Text, int *size)
 	Filme *f = Inicialize_Struct();
 	/*Caracteres de fim de campos e registros*/
 	/*Delimitadores e char para uso no loop*/
-	char End_Register, End_Field;
+	char endRegister, endField;
 	/*i serve para indice do array e o tam tem o tamanho total do registo*/
 	int i = 0, tam = 0;
 
  /*Enquanto nao estive no final do arquivo, continua no loop*/
-	while(fscanf(Text, "%d %c", &f->idFilme, &End_Register)>0)
+	while(fscanf(Text, "%d %c", &f->idFilme, &endRegister)>0)
 	{
-					/*Recupera o campo do arquivo txtm, assim como os delimitadores!*/
-		fscanf(Text, "%d %c", &f->anoLancamento, &End_Register);
-		fscanf(Text, "%d %c\n", &f->duracaoFilme,&End_Register);
+		/*Recupera o campo do arquivo txtm, assim como os delimitadores!*/
+		fscanf(Text, "%d %c", &f->anoLancamento, &endRegister);
+		fscanf(Text, "%d %c\n", &f->duracaoFilme,&endRegister);
 
-				/*Recupera o campo do arquivo txtm, assim como os delimitadores! Alem de colocar no array de tamanhos o tamanho da string*/
+		/*Recupera o campo do arquivo txtm, assim como os delimitadores! Alem de colocar no array de tamanhos o tamanho da string*/
 		fgets(f->tituloFilme, STRING_SIZE,  Text);
-				size[i] = strlen(f->tituloFilme);
-						fscanf(Text, "%c", &End_Field);
+		size[i] = strlen(f->tituloFilme);
+		fscanf(Text, "%c", &endField);
 		i++;
 
-				/*Recupera o campo do arquivo txtm, assim como os delimitadores! Alem de colocar no array de tamanhos o tamanho da string*/
+		/*Recupera o campo do arquivo txtm, assim como os delimitadores! Alem de colocar no array de tamanhos o tamanho da string*/
 		fgets(f->generoFilme, STRING_SIZE, Text);
-				size[i] = strlen(f->generoFilme);
-						fscanf(Text, "%c", &End_Field);
+		size[i] = strlen(f->generoFilme);
+		fscanf(Text, "%c", &endField);
 		i++;
 
-			/*Recupera o campo do arquivo txtm, assim como os delimitadores! Alem de colocar no array de tamanhos o tamanho da string*/
+		/*Recupera o campo do arquivo txtm, assim como os delimitadores! Alem de colocar no array de tamanhos o tamanho da string*/
 		fgets(f->descFilme, STRING_SIZE, Text);
-				size[i] = strlen(f->descFilme);
-						fscanf(Text, "%c", &End_Field);
+		size[i] = strlen(f->descFilme);
+		fscanf(Text, "%c", &endField);
 		i++;
 
 		/*Recupera o campo do arquivo txtm, assim como os delimitadores! Alem de colocar no array de tamanhos o tamanho da string*/
 		fgets(f->producao, STRING_SIZE, Text);
-				size[i] = strlen(f->producao);
-						fscanf(Text, "%c %c", &End_Field, &End_Register);
+		size[i] = strlen(f->producao);
+		fscanf(Text, "%c %c", &endField, &endRegister);
 		i++;
 
 		/*Array com o tamanho total do registro no array, soma dos inteiros, tamanhos de string e delimitadores*/
-		 tam = (strlen(f->producao)+ strlen(f->descFilme) + strlen(f->generoFilme) + strlen(f->tituloFilme) + 3*sizeof(int) + 7*sizeof(char));
-		 size[i] = tam ;
-		 i++;
+		tam = (strlen(f->producao)+ strlen(f->descFilme) + strlen(f->generoFilme) + strlen(f->tituloFilme) + 3*sizeof(int) + 7*sizeof(char));
+		size[i] = tam ;
+		i++;
 
-		 /*Escreve registros no arquivo binario!!!*/
-	 fwrite(&f->idFilme, sizeof(int), 1 , fp);
-	 fwrite(&End_Field, sizeof(char), 1 , fp);
+		/*Escreve registros no arquivo binario!!!*/
+		fwrite(&f->idFilme, sizeof(int), 1 , fp);
+		fwrite(&endField, sizeof(char), 1 , fp);
 
-	 fwrite(&f->anoLancamento, sizeof(int), 1 , fp);
-	 fwrite(&End_Field, sizeof(char), 1 , fp);
+		fwrite(&f->anoLancamento, sizeof(int), 1 , fp);
+		fwrite(&endField, sizeof(char), 1 , fp);
 
-	 fwrite(&f->duracaoFilme, sizeof(int), 1 , fp);
-	 fwrite(&End_Field, sizeof(char), 1 , fp);
+		fwrite(&f->duracaoFilme, sizeof(int), 1 , fp);
+		fwrite(&endField, sizeof(char), 1 , fp);
 
-	 fwrite(f->tituloFilme, strlen(f->tituloFilme), 1 , fp);
-	 fwrite(&End_Field, sizeof(char), 1 , fp);
+		fwrite(f->tituloFilme, strlen(f->tituloFilme), 1 , fp);
+		fwrite(&endField, sizeof(char), 1 , fp);
 
-	 fwrite(f->generoFilme, strlen(f->generoFilme), 1 , fp);
-	 fwrite(&End_Field, sizeof(char), 1 , fp);
+		fwrite(f->generoFilme, strlen(f->generoFilme), 1 , fp);
+		fwrite(&endField, sizeof(char), 1 , fp);
 
-	 fwrite(f->descFilme, strlen(f->descFilme), 1 , fp);
-	 fwrite(&End_Field, sizeof(char), 1 , fp);
+		fwrite(f->descFilme, strlen(f->descFilme), 1 , fp);
+		fwrite(&endField, sizeof(char), 1 , fp);
 
-	 fwrite(f->producao, strlen(f->producao), 1 , fp);
-	 fwrite(&End_Field, sizeof(char), 1 , fp);
+		fwrite(f->producao, strlen(f->producao), 1 , fp);
+		fwrite(&endField, sizeof(char), 1 , fp);
 
-	 fwrite(&End_Register, sizeof(char), 1 , fp);
+		fwrite(&endRegister, sizeof(char), 1 , fp);
 	}
 	printf("Dados recuperados com sucesso!\n");
  }
@@ -251,3 +189,99 @@ void PrintFilme(Filme *filme){
 	printf("Producao: %s\n", filme->producao);
 
 }
+
+void fprintf_str(FILE* fp, char* str)
+{
+	int i = 0;
+	int size = strlen(str);
+	while(i < size){
+		if(str[i] == '\0') break;
+		fprintf(fp,"%c",str[i++]);
+	}
+}
+
+/*Funcao que preenche um arquivo binario de dados com base em um
+	arquivo de texto
+	O nome do arquivo será "dados.bin"
+	Parametros:
+		FILE* bin: ponteiro do arquivo binario utilizado
+		FILE* txt: ponteiro do arquivo de texto utilizado
+	Retorno:
+		FILE* bin: ponteiro do arquivo binario gerado 
+*/
+void buildBinFile(FILE* bin, FILE* txt)
+{
+	int* randomIds = NULL;
+	int readCount;
+	Filme* f;
+	char endField = FIELD_DELIM;
+	char endRegister = REG_DELIM;
+	FILE* debug = fopen("debug.txt","w");
+
+	//verifico se os parametros dados sao validos
+	if(bin == NULL){
+		fprintf(stderr,"Invalid binary filename.\n");
+		return;
+	}
+
+	if(txt == NULL){
+		fprintf(stderr,"Invalid txt file pointer.\n");
+		return;
+	}
+
+	//inicializo a estrutura para leitura
+	f = Inicialize_Struct();
+	//gero uma lista com ids aleatorios
+	randomIds = Rand_Num();
+	//leio 100 registros do arquivo de texto
+	for(readCount = 0; readCount < 100 && !feof(txt); readCount++){
+		/*realizo a leitura dos campos no arquivo txt, 
+										salvo na struct Filme f*/
+		SetId(f,randomIds[readCount]);
+		fscanf(txt,"%d",&(f->anoLancamento)); //le ano de lancamento
+		fgetc(txt); //le um '\n'
+		fscanf(txt,"%d",&(f->duracaoFilme)); //le ano de lancamento
+		fgetc(txt); //le um '\n'
+		fscanf(txt,"%[^\n]s",f->tituloFilme); //le titulo do filme
+		fgetc(txt); //le um '\n'
+		fscanf(txt,"%[^\n]s",f->generoFilme); //le genero do filme
+		fgetc(txt); //le um '\n'
+		fscanf(txt,"%[^\n]s",f->descFilme); //le descricao do filme
+		fgetc(txt); //le um '\n'
+		fscanf(txt,"%[^\n]s",f->producao); //le ano de producao
+
+		//escrevo os dados de f no arquivo binario
+		fwrite(&f->idFilme, sizeof(int), 1 , bin);
+		fwrite(&f->anoLancamento, sizeof(int), 1 , bin);
+		fwrite(&f->duracaoFilme, sizeof(int), 1 , bin);
+		fwrite(f->tituloFilme, sizeof(char), strlen(f->tituloFilme), bin);
+		fwrite(&endField, sizeof(char), 1 , bin);
+		fwrite(f->generoFilme, sizeof(char), strlen(f->generoFilme), bin);
+		fwrite(&endField, sizeof(char), 1 , bin);
+		fwrite(f->descFilme, sizeof(char), strlen(f->descFilme), bin);
+		fwrite(&endField, sizeof(char), 1 , bin);
+		fwrite(f->producao, sizeof(char), strlen(f->producao), bin);
+		fwrite(&endField, sizeof(char), 1 , bin);
+		fwrite(&endRegister, sizeof(char), 1 , bin);
+
+		fprintf(debug,"%d",f->idFilme);
+		fprintf(debug,"%d",f->anoLancamento);
+		fprintf(debug,"%d",f->duracaoFilme);
+		fprintf_str(debug,f->tituloFilme);
+		fprintf(debug,"%c",endField);
+		fprintf_str(debug,f->generoFilme);
+		fprintf(debug,"%c",endField);
+		fprintf_str(debug,f->descFilme);
+		fprintf(debug,"%c",endField);
+		fprintf_str(debug,f->producao);
+		fprintf(debug,"%c",endField);
+		fprintf(debug,"%c",endRegister);
+	}
+}
+
+// 1936
+// 87
+// Modern Times
+// Comedia
+// Uma satira ao modelo fordista dos anos 30
+// EUA
