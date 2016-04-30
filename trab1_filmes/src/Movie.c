@@ -190,6 +190,7 @@ void PrintFilme(Filme *filme){
 
 }
 
+//imprime uma string str em um arquivo fp
 void fprintf_str(FILE* fp, char* str)
 {
 	int i = 0;
@@ -199,6 +200,42 @@ void fprintf_str(FILE* fp, char* str)
 		fprintf(fp,"%c",str[i++]);
 	}
 }
+//num eh o numero de registros no arquivo de texto
+//used eh um vetor que marca qual valor ja foi utilizado
+//fp eh o ponteiro do arquivo txt com os filmes
+void seekToRandomPos(FILE* fp, char* used, int num)
+{
+	char bfr;
+	int count = 0;
+	int limit;
+
+	//seto semente do numero aletorio para time(NULL)
+	srand(time(NULL));
+
+	//busco o numero aleatorio de um registro que ainda nao foi usado
+	do{
+		limit = rand() % num;
+		if(count > num){ //evita loop infinito, resultado indesejado
+			fprintf(stderr,"failed to seek to random pos\n");
+			break;
+		}
+	}while(used[limit]);
+
+	used[limit] = 1;
+
+	//me preparo para a leitura
+	rewind(fp);
+	limit *= 6; /*limit agora tem o numero de '\n's que devo ler
+					para chegar na posicao correta de leitura*/
+
+
+	//leio ateh encontrar minha posicao
+	count = 0;
+	while(count < limit){
+		bfr = fgetc(fp);
+		if(bfr == '\n')count++;
+	}
+}
 
 /*Funcao que preenche um arquivo binario de dados com base em um
 	arquivo de texto
@@ -206,12 +243,14 @@ void fprintf_str(FILE* fp, char* str)
 	Parametros:
 		FILE* bin: ponteiro do arquivo binario utilizado
 		FILE* txt: ponteiro do arquivo de texto utilizado
+		int num: numero de registros no arquivo txt
 	Retorno:
 		FILE* bin: ponteiro do arquivo binario gerado 
 */
-void buildBinFile(FILE* bin, FILE* txt)
+void buildBinFile(FILE* bin, FILE* txt, int num)
 {
 	int* randomIds = NULL;
+	char* alreadyUsed;
 	int readCount;
 	Filme* f;
 	char endField = FIELD_DELIM;
@@ -233,8 +272,16 @@ void buildBinFile(FILE* bin, FILE* txt)
 	f = Inicialize_Struct();
 	//gero uma lista com ids aleatorios
 	randomIds = Rand_Num();
+	//gero uma lista marcando quais vetores ja foram utilizados
+	alreadyUsed = (char*)calloc(num,sizeof(char));
 	//leio 100 registros do arquivo de texto
-	for(readCount = 0; readCount < 100 && !feof(txt); readCount++){
+	for(readCount = 0; readCount < num; readCount++){
+
+		//preciso dar seek para uma posicao aleatoria
+		//para isso, vou salvar em um vetor quais "RRNs" ja foram colocados
+		//depois, dou seek até aquela posicao
+		seekToRandomPos(txt,alreadyUsed,num);
+
 		/*realizo a leitura dos campos no arquivo txt, 
 										salvo na struct Filme f*/
 		SetId(f,randomIds[readCount]);
@@ -278,10 +325,3 @@ void buildBinFile(FILE* bin, FILE* txt)
 		fprintf(debug,"%c",endRegister);
 	}
 }
-
-// 1936
-// 87
-// Modern Times
-// Comedia
-// Uma satira ao modelo fordista dos anos 30
-// EUA

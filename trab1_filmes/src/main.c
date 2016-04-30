@@ -50,11 +50,11 @@ int main()
 			op = checkInput();
 			switch(op){
 				case 1: //gerar 100 registros
-					buildBinFile(bin,txt);
+					buildBinFile(bin,txt,19);
 					getchar();
 					break;
 				case 2: //exibir todos os registros
-					for(i = 0; i < 100; i++){
+					for(i = 0; i < 18; i++){
 						temp = getFilme(bin,i);
 						PrintFilme(temp);
 						printf("Pressione enter para o proximo filme\n");

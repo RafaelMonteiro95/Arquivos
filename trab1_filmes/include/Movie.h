@@ -64,6 +64,6 @@ Filme* getFilmeById(FILE* fp, int id);
 
 void PrintFilme(Filme *filme);
 
-void buildBinFile(FILE* bin, FILE* txt);
+void buildBinFile(FILE* bin, FILE* txt, int num);
 
 #endif
