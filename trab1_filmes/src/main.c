@@ -67,7 +67,7 @@ int main()
 					temp = getFilmeById(bin,temp->idFilme);
 					getchar();
 					break;
-				default: //sair do programa
+				default: //sair do programaa
 					break;
 			}
 
