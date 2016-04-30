@@ -58,53 +58,6 @@ char *GetGenre(Filme *f) { return f->generoFilme; }
 char *GetTitle(Filme *f) { return f->tituloFilme; }
 char *GetDescription(Filme *f) { return f->descFilme; }
 
-/*Funcao que gera as IDs aleatorias sem numeros repetidos*/
-int *Rand_Num()
- {
-	 /*Tres variaveis que serao usadas, dois arrays de inteiros e uma variavel int*/
-	 int *aux, *vet, i = 0;
-
-	 /*Alocacao dos dois vetores de inteiros*/
-		aux = (int*)malloc(100*sizeof(int));
-		vet = (int*)malloc(100*sizeof(int));
-
-		/*Inicializa ambos os vetores, todas as posicoes sao zero*/
-		for(i=0; i<100; i++)
-		 {
-			vet[i] = 0;
-			aux[i] = 0;
-		 }
-
-		 /*Zera a variavel i, pois sera usada no laco seguinte*/
-		i=0;
-
-		/*srand eh necessaria para gerar numeros aleatorios distintos toda vez que o computador seja inicializado*/
-		srand(time(NULL));
-		
-		//srand(time(NULL));
-		while(i != 100)
-		 {
-				/*Essa flag eh necessaria para que evite repeticoes, coloca-se 1 na posicao "aux[i]" no vetor vet,
-				caso essa posicao nao seja 1, ele entra na flag e incrementa o i, caso contrario, ele segue no laco*/
-				if(vet[aux[i]] != 1)
-				 {
-						aux[i]  = 1 + ( rand() % 100);
-						vet[aux[i]] = 1;
-						i++;
-				}
-		}
-		/*Retorna o vetor de inteiros com os numeros gerados na funcao*/
-	return aux;
- }
-
-// int* Rand_Num()
-// {
-// 	int* values = NULL;
-// 	char* valid = NULL;
-
-// 	values = (int*)calloc(sizeof(values))
-// }
-
 void PrintFilme(Filme *filme){
 
 	if(!filme) return;
@@ -119,6 +72,36 @@ void PrintFilme(Filme *filme){
 
 }
 
+/*Funcao que gera as IDs aleatorias sem numeros repetidos*/
+int* Rand_Num()
+{
+	int i, j, temp;
+	int* values = NULL;
+	char* used = NULL;
+
+	//aloco vetor com os valores
+	values = (int*)malloc(100*sizeof(int));
+	//aloco um vetor que marca quais valores foram usados
+	used = (char*)calloc(100,sizeof(char));
+
+	for(i = 0; i < 100; i++){
+		//gero um numero aleatorio valido
+		do{
+			temp = rand() % 100;
+		}while(used[temp]); //sempre verificando se ele foi usado
+		//insiro esse numero + 1 (pra ficar de 1 a 100)
+		values[i] = temp+1;
+		//marco que o numero foi usado
+		used[temp] = 1;
+	}
+
+	//libero a memoria utilizada
+	free(used);
+
+	//retorno vetor com numeros aleatorios
+	return values;
+}
+
 //imprime uma string str em um arquivo fp
 void fprintf_str(FILE* fp, char* str)
 {
@@ -129,6 +112,7 @@ void fprintf_str(FILE* fp, char* str)
 		fprintf(fp,"%c",str[i++]);
 	}
 }
+
 /*essa funcao da seek no arquivo txt buscando um registro que ainda
 nao tenha sido inserido no arquivo binario
 parametros:
@@ -140,9 +124,6 @@ void seekToRandomPos(FILE* fp, char* used, int num)
 	char bfr;
 	int count = 0;
 	int limit;
-
-	//seto semente do numero aletorio para time(NULL)
-	srand(time(NULL));
 
 	//busco o numero aleatorio de um registro que ainda nao foi usado
 	do{
@@ -202,6 +183,10 @@ void buildBinFile(FILE* bin, FILE* txt, int num)
 		fprintf(stderr,"Invalid txt file pointer.\n");
 		return;
 	}
+	
+	/*seto semente de rand como time(NULL) para geracao de id e
+		insercao no arquivo binario de forma aleatoria*/
+	srand(time(NULL));
 
 	//inicializo a estrutura para leitura
 	f = Inicialize_Struct();
