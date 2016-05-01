@@ -51,7 +51,6 @@ main: $(OBJ)
 	@echo Linking object files
 	@$(CC) -o $(BLDDIR)/$(NAME) $^ $(CFLAGS) $(LIBS)
 
-
 # Run directives
 run:
 	$(DEBUGGER) ./$(BLDDIR)/$(NAME) $(INPUT) $(OUTPUT)
@@ -62,6 +61,8 @@ clean:
 	-rm -f $(OBJDIR)/*.o
 	-rm -f $(NAME).zip
 	-rm -f $(NAME).tar.gz
+	mkdir -p $(OBJDIR)
+	mkdir -p $(BLDDIR)
 	clear
 	clear
 
