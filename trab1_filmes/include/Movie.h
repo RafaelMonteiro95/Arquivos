@@ -1,40 +1,42 @@
+/*Autores:
+	BRUNO BACELAR ABE		9292858
+	KAUE LOPES DE MORAIS	9277576
+	LUCAS ALEXANDRE SOARES	9293265
+	RAFAEL AUGUSTO MONTEIRO	9293095
+*/
 #ifndef _MOVIE_H_
 #define _MOVIE_H_
 
 #include <stdio.h>
 #include <stdlib.h>
 
+//caractere utilizado como delimitador de registros
 #define REG_DELIM '#'
+//caractere utilizado como delimitador de campos
 #define FIELD_DELIM '|'
-#define STRING_SIZE 1000
 
-/*Essa struct seria o registro, o qual tem campos de tamanho fixo e de tamanho variado*/
+/*Struct que representa o registro de um filme
+	Campos:
+		int idFilme: 		ID do filme
+		int anoLancamento: 	Ano de lancamento do filme
+		int duracaoFilme: 	Tempo de duracao do filme, em minutos
+		char* generoFilme: 	Genero(s) do filme. 
+		char* tituloFilme: 	Titulo do filme
+		char* descFilme: 	Descricao do filme
+		char* producao: 	Pais(es) de producao do filme
+*/
 typedef struct filme
-{  	/*Chave primária para busca, eh o codigo do filme. Eh um campo de tamanho  fixo,
-	pois trata-se de um codigo numerico que dificilmente ira estourar o tamanho dos inteiros,
-	tornando o seu uso variavel desnecessario.*/
+{
 	int idFilme;
-	/*Ano de lançamento do filme. Campo de tamanho fixo, pois nesse campo o que será tratado sao anos, campo numerico,
-	nao ha necessidade de uso de um campo variavel - visto que um filme tem, no maximo, 100 anos.*/
 	int anoLancamento;
-	/*Duracao do filme, em minutos.Campo de tamanho fixo, pois  estamos adotando a duracao do filme em minutos, nao ha
-	"numeros com ponto flutuante", além do fato de que um filme normalmente possui por volta de 120 minutos*/
 	int duracaoFilme;
-	/*genero do filme. Esse campo eh necessario o uso de tamanho variavel. Como um filme pode possuir mesclas de generos,
-	-terror, drama , por exemplo- tornou-se necessario o uso do tamanho variavel.*/
 	char *generoFilme;
-	/*Titulo do filme. Nesse campo tornou-se necessario o uso de tamanho variavel. Titulos de filmes sao extremamente volateis
-	em questao de tamanho, podendo ter apenas um caracter para sua representacao, quanto muitas palavras, para evitar truncamento
-	de dados e uso desnecessario da memoria, optou-se por esse campo*/
 	char *tituloFilme;
-	/*Sinopse do filme. A Sinopse, alem de ser um pequeno texto tem seu tamanho extremamente variado. Para evitar desperdicios e truncamento
-	dos dados, usa-se o tamanho variado.*/
 	char *descFilme;
-	/*Pais de producao do filme. Trata-se de um campo ao qual refere-se aos pais(es) que produziram o filme. Como esse campo tambem pode
-	possuir um ou mais paises, foi-se optado pelo uso de um campo variavel*/
 	char *producao;
 }Filme;
 
+// Construtor e Destrutor da estrutura Filme
 Filme *Inicialize_Struct();
 void Destroy_Struct(Filme **filme);
 
@@ -56,14 +58,14 @@ char *GetGenre(Filme *f);
 char *GetTitle(Filme *f);
 char *GetDescription(Filme *f);
 
-void Insert_in_File(FILE *fp, FILE *Text, int *size);
-//void Insert_in_Text(FILE *Text, int ID);
+// Funcao de geracao de arquivo binario
+void buildBinFile(FILE* bin, FILE* txt);
 
+// Funcoes de leitura de arquivo
 Filme* getFilme(FILE* fp);
 Filme* getFilmeById(FILE* fp, int id);
 
+// Funcao de impressao de filme
 void PrintFilme(Filme *filme);
-
-void buildBinFile(FILE* bin, FILE* txt, int num);
 
 #endif

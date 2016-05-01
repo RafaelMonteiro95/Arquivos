@@ -1,3 +1,9 @@
+/*Autores:
+	BRUNO BACELAR ABE		9292858
+	KAUE LOPES DE MORAIS	9277576
+	LUCAS ALEXANDRE SOARES	9293265
+	RAFAEL AUGUSTO MONTEIRO	9293095
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,8 +11,10 @@
 
 #include "Movie.h"
 
-/*Funcao que inicializa a Struct para que possamos usar os vetores de tamanho variavel, essa funcao retorna
-uma variavel -do tipo Filme -com memoria ja alocada*/
+/*	Funcao que aloca a memoria e inicializa uma estrutura Filme
+	Parametros: nenhum
+	Retorno: Filme *f: ponteiro para a estrutura filme gerada
+						devidamente inicializada*/
 Filme *Inicialize_Struct()
  {
 		/*Aloca memoria para o time Filme*/
@@ -18,24 +26,27 @@ Filme *Inicialize_Struct()
 		f->duracaoFilme = 0;
 
 		/*Aloca memoria para uso das Strings*/
-		f->generoFilme = (char*)malloc(STRING_SIZE*sizeof(char));
-		f->tituloFilme = (char*)malloc(STRING_SIZE*sizeof(char));
-		f->descFilme = (char*)malloc(STRING_SIZE*sizeof(char));
-		f->producao = (char*)malloc(STRING_SIZE*sizeof(char));
+		f->generoFilme = (char*)malloc(sizeof(char)*100);
+		f->tituloFilme = (char*)malloc(sizeof(char)*100);
+		f->descFilme = (char*)malloc(sizeof(char)*500);
+		f->producao = (char*)malloc(sizeof(char)*100);
 
 
 	return f;
  }
 
+/*	Funcao que libera a memoria utilizada pela estrutura Filme
+	Parametros: Filme **f: endereco do ponteiro da estrutura
+	Retorno: nenhum*/
 void Destroy_Struct(Filme **f)
  {
  		if(!f || !(*f)) return;
 
 		 /*Funcao contraria a Inicializa_Struct, essa desaloca toda a Struct utilizada*/
-		free((*f)->generoFilme);
-		free((*f)->tituloFilme);
-		free((*f)->descFilme);
-		free((*f)->producao);
+		if((*f)->generoFilme)free((*f)->generoFilme);
+		if((*f)->tituloFilme)free((*f)->tituloFilme);
+		if((*f)->descFilme)free((*f)->descFilme);
+		if((*f)->producao)free((*f)->producao);
 		free((*f));
 		*f = NULL;
  }
@@ -58,6 +69,10 @@ char *GetGenre(Filme *f) { return f->generoFilme; }
 char *GetTitle(Filme *f) { return f->tituloFilme; }
 char *GetDescription(Filme *f) { return f->descFilme; }
 
+
+/*	Funcao que imprime os valores de uma estrutura Filme
+	Parametros: Filme *f: endereco de memoria da estrutura
+	Retorno: nenhum*/
 void PrintFilme(Filme *filme){
 
 	if(!filme) return;
@@ -72,10 +87,13 @@ void PrintFilme(Filme *filme){
 
 }
 
-/*Funcao que gera as IDs aleatorias sem numeros repetidos*/
+/*	Funcao que gera as IDs aleatorias sem numeros repetidos
+	Parametros: nenhum
+	Retorno: int* values: vetor contendo numeros de 1 a 100 ordenados
+							aleatoriamente*/
 int* Rand_Num()
 {
-	int i, j, temp;
+	int i, temp;
 	int* values = NULL;
 	char* used = NULL;
 
@@ -87,7 +105,8 @@ int* Rand_Num()
 	for(i = 0; i < 100; i++){
 		//gero um numero aleatorio valido
 		do{
-			temp = rand() % 100;
+			temp = (rand() % 100);
+			if(temp >= 100)printf("%d\n",temp);
 		}while(used[temp]); //sempre verificando se ele foi usado
 		//insiro esse numero + 1 (pra ficar de 1 a 100)
 		values[i] = temp+1;
@@ -102,7 +121,11 @@ int* Rand_Num()
 	return values;
 }
 
-//imprime uma string str em um arquivo fp
+/*	Funcao que escreve uma string str em um arquivo textual
+	Parametros: 
+		FILE*  fp: ponteiro do arquivo utilizado
+		char* str: ponteiro da string com o texto a ser escrito
+	Retorno: nenhum*/
 void fprintf_str(FILE* fp, char* str)
 {
 	int i = 0;
@@ -113,13 +136,58 @@ void fprintf_str(FILE* fp, char* str)
 	}
 }
 
-/*essa funcao da seek no arquivo txt buscando um registro que ainda
-nao tenha sido inserido no arquivo binario
-parametros:
-num eh o numero de registros no arquivo de texto
-used eh um vetor que marca qual valor ja foi utilizado
-fp eh o ponteiro do arquivo txt com os filmes*/
-void seekToRandomPos(FILE* fp, char* used, int num)
+/*
+
+/*	Funcao que lê uma string de um arquivo textual
+	a leitura é realizada até que um caractere '\n' seja encontrado
+	Parametros: 
+		FILE*  fp: ponteiro do arquivo utilizado
+		char* str: ponteiro onde a string lida sera armazenada
+	Retorno: o tamanho da string lida excluindo o caractere \0*/
+int freadline(FILE* fp, char* string)
+{
+	char* buffer = NULL;
+	int sizeCounter = 0;
+	int curSize = 100;
+	char c;
+
+	//realoco o tamanho da buffer passada
+	buffer = malloc(sizeof(char)*curSize);
+
+	//leio do arquivo até encontrar um delimitadores
+	do{
+		c = fgetc(fp);
+		//caso seja um caractere valido
+		if(c != '\n'){
+			sizeCounter++;
+			//verifico se preciso ampliar o buffer
+			if(sizeCounter >= curSize){
+				buffer = (char*)realloc(buffer,sizeof(char)*(++curSize));
+			}
+			//guardo o valor lido
+			buffer[sizeCounter-1] = c;
+		}
+	} while(c != '\n');
+	buffer[sizeCounter] = '\0';
+
+	strcpy(string,buffer);
+	free(buffer);
+
+	//retorno o numero de caracteres lidos e escritos em string
+	return sizeCounter;
+}
+
+/*Funcao que prepara o ponteiro de leitura do arquivo txt para um reg
+	que ainda nao foi inserido no arquivo bin
+  A posicao escolhida eh aleatoria, sorteada entre os 100 registros do
+  	arquivo txt.
+	Parametros:
+		FILE* fp: ponteiro do arquivo txt
+		char* used: vetor que armazena flags, marcando quais registros
+			jah foram lidos e inseridos no arquivo binario
+	Retorno: nenhum, pois a funcao manipula o ponteiro do arquivo fp
+*/
+void seekToRandomPos(FILE* fp, char* used)
 {
 	char bfr;
 	int count = 0;
@@ -127,8 +195,8 @@ void seekToRandomPos(FILE* fp, char* used, int num)
 
 	//busco o numero aleatorio de um registro que ainda nao foi usado
 	do{
-		limit = rand() % num;
-		if(count > num){ //evita loop infinito, resultado indesejado
+		limit = rand() % 100;
+		if(count > 100){ //evita loop infinito
 			fprintf(stderr,"failed to seek to random pos\n");
 			break;
 		}
@@ -146,32 +214,33 @@ void seekToRandomPos(FILE* fp, char* used, int num)
 	count = 0;
 	while(count < limit){
 		bfr = fgetc(fp);
-		if(bfr == '\n')count++;
+		//conto os '\n' ateh chegar no 'RRN' certo
+		if(bfr == '\n')count++; 
 	}
-
-	/*pronto! ja coloquei o ponteiro do arquivo na posicao correta de
-	leitura.*/
 }
 
 /*Funcao que preenche um arquivo binario de dados com base em um
 	arquivo de texto
 	O nome do arquivo será "dados.bin"
+	Eh gerado tambem um arquivo textual "exemplo.txt" que 
+		exemplifica como os dados sao armazenados no arquivo binario
 	Parametros:
 		FILE* bin: ponteiro do arquivo binario utilizado
 		FILE* txt: ponteiro do arquivo de texto utilizado
-		int num: numero de registros no arquivo txt
 	Retorno:
 		FILE* bin: ponteiro do arquivo binario gerado 
 */
-void buildBinFile(FILE* bin, FILE* txt, int num)
+void buildBinFile(FILE* bin, FILE* txt)
 {
+	char strBuffer[1000] = {0};
 	int* randomIds = NULL;
 	char* alreadyUsed;
 	int readCount;
 	Filme* f;
 	char endField = FIELD_DELIM;
 	char endRegister = REG_DELIM;
-	FILE* debug = fopen("debug.txt","w");
+	FILE* debug = fopen("exemplo.txt","w");
+
 
 	//verifico se os parametros dados sao validos
 	if(bin == NULL){
@@ -193,14 +262,15 @@ void buildBinFile(FILE* bin, FILE* txt, int num)
 	//gero uma lista com ids aleatorios
 	randomIds = Rand_Num();
 	//gero uma lista marcando quais 'RRN's do arquivo txt ja foram utilizados
-	alreadyUsed = (char*)calloc(num,sizeof(char));
-	//leio 'num' registros do arquivo de texto
-	for(readCount = 0; readCount < num; readCount++){
+	alreadyUsed = (char*)calloc(100,sizeof(char));
+
+	//leio 100 registros do arquivo de texto
+	for(readCount = 0; readCount < 100; readCount++){
 
 		//preciso dar seek para um registro aleatorio do arquivo txt
 		//para isso, vou salvar em um vetor quais "RRNs" ja foram colocados
 		//depois, dou seek até aquela posicao
-		seekToRandomPos(txt,alreadyUsed,num);
+		seekToRandomPos(txt,alreadyUsed);
 
 		/*realizo a leitura dos campos no arquivo txt, 
 										salvo na struct Filme f*/
@@ -209,39 +279,43 @@ void buildBinFile(FILE* bin, FILE* txt, int num)
 		fgetc(txt); //le um '\n'
 		fscanf(txt,"%d",&(f->duracaoFilme)); //le ano de lancamento
 		fgetc(txt); //le um '\n'
-		fscanf(txt,"%[^\n]s",f->tituloFilme); //le titulo do filme
-		fgetc(txt); //le um '\n'
-		fscanf(txt,"%[^\n]s",f->generoFilme); //le genero do filme
-		fgetc(txt); //le um '\n'
-		fscanf(txt,"%[^\n]s",f->descFilme); //le descricao do filme
-		fgetc(txt); //le um '\n'
-		fscanf(txt,"%[^\n]s",f->producao); //le ano de producao
+		freadline(txt,f->tituloFilme); //le titulo do filme
+		freadline(txt,f->generoFilme); //le genero do filme
+		freadline(txt,f->descFilme); //le descricao do filme
+		freadline(txt,f->producao); //le pais de producao
+		// fscanf(txt,"%[^\n]s",f->producao); //le pais de producao
 
 		//escrevo os dados de f no arquivo binario
-		fwrite(&f->idFilme, sizeof(int), 1 , bin);
-		fwrite(&f->anoLancamento, sizeof(int), 1 , bin);
-		fwrite(&f->duracaoFilme, sizeof(int), 1 , bin);
-		fwrite(f->tituloFilme, sizeof(char), strlen(f->tituloFilme), bin);
-		fwrite(&endField, sizeof(char), 1 , bin);
-		fwrite(f->generoFilme, sizeof(char), strlen(f->generoFilme), bin);
-		fwrite(&endField, sizeof(char), 1 , bin);
-		fwrite(f->descFilme, sizeof(char), strlen(f->descFilme), bin);
-		fwrite(&endField, sizeof(char), 1 , bin);
-		fwrite(f->producao, sizeof(char), strlen(f->producao), bin);
-		fwrite(&endField, sizeof(char), 1 , bin);
-		fwrite(&endRegister, sizeof(char), 1 , bin);
+		fwrite(&f->idFilme, sizeof(int), 1 , bin); //ID
+		fwrite(&f->anoLancamento, sizeof(int), 1 , bin); //ANO
+		fwrite(&f->duracaoFilme, sizeof(int), 1 , bin); //DURACAO
+		fwrite(f->tituloFilme, sizeof(char), strlen(f->tituloFilme), bin); //TITULO
+		fwrite(&endField, sizeof(char), 1 , bin); //DELIMITADOR DE CAMPO
+		fwrite(f->generoFilme, sizeof(char), strlen(f->generoFilme), bin); //GENERO
+		fwrite(&endField, sizeof(char), 1 , bin); //DELIMITADOR DE CAMPO
+		fwrite(f->descFilme, sizeof(char), strlen(f->descFilme), bin); //DESCRICAO
+		fwrite(&endField, sizeof(char), 1 , bin); //DELIMITADOR DE CAMPO
+		fwrite(f->producao, sizeof(char), strlen(f->producao), bin); //PRODUCAO
+		fwrite(&endField, sizeof(char), 1 , bin); //DELIMITADOR DE CAMPO
+		fwrite(&endRegister, sizeof(char), 1 , bin); //DELIMITADOR DE REGISTRO
 
-		fprintf(debug,"%d",f->idFilme);
-		fprintf(debug,"%d",f->anoLancamento);
-		fprintf(debug,"%d",f->duracaoFilme);
-		fprintf_str(debug,f->tituloFilme);
-		fprintf(debug,"%c",endField);
-		fprintf_str(debug,f->generoFilme);
-		fprintf(debug,"%c",endField);
-		fprintf_str(debug,f->descFilme);
-		fprintf(debug,"%c",endField);
-		fprintf_str(debug,f->producao);
-		fprintf(debug,"%c",endField);
-		fprintf(debug,"%c",endRegister);
+		//escrevo no arquivo de debug, para facilitar a compreensao
+		fprintf(debug,"%d",f->idFilme); //ID
+		fprintf(debug,"%d",f->anoLancamento); //ANO
+		fprintf(debug,"%d",f->duracaoFilme); //DURACAO
+		fprintf_str(debug,f->tituloFilme); //TITULO
+		fprintf(debug,"%c",endField); //DELIMITADOR DE CAMPO
+		fprintf_str(debug,f->generoFilme); //GENERO
+		fprintf(debug,"%c",endField); //DELIMITADOR DE CAMPO
+		fprintf_str(debug,f->descFilme); //DESCRICAO
+		fprintf(debug,"%c",endField); //DELIMITADOR DE CAMPO
+		fprintf_str(debug,f->producao); //PRODUCAO
+		fprintf(debug,"%c",endField); //DELIMITADOR DE CAMPO
+		fprintf(debug,"%c",endRegister); //DELIMITADOR DE REGISTRO
 	}
+
+	free(alreadyUsed);
+	free(randomIds);
+	fclose(debug);
+	Destroy_Struct(&f);
 }

@@ -1,25 +1,25 @@
 1936
 87
-Modern Times
 Comedia
+Modern Times
 Uma satira ao modelo fordista dos anos 30
 EUA
 1980
 146
-The Shining 
 Misterio, Terror
+The Shining
 Uma familia esta em uma viagem de ferias, porem, o hotel eh, no minimo, bizarro
 EUA, Reino Unido, Irlanda do Norte
 1971
 136
-A Clockwork Orange
 Drama, Policial
+A Clockwork Orange
 Em uma inglaterra ficticia do futuro, gangues dominam o pais.
 EUA, Reino Unido
 1973
 122
-The Exorcist
 Terror
+The Exorcist
 Uma menina e, aparentemente, possuida pelo demonio. Cabe a um padre tentar exorciza-la
 EUA
 2001
@@ -92,7 +92,7 @@ EUA
 107
 The Sixth Sense
 Suspense, Misterio
-Um psicologo infantil tenta descobrir o que ha de errado com a criancaa
+Um psicologo infantil tenta descobrir o que ha de errado com a criança
 EUA
 1992
 99
@@ -106,3 +106,501 @@ The Lord of the Rings: The Fellowship of the Ring
 Aventura, Fantasia
 Em uma terra fantastica, um anel poderoso precisa ser destruido
 EUA, Nova Zelandia
+2006
+110
+The Illusionist
+Drama
+Um famoso ilusionista impressiona suas plateias com seus truques, até então, inexplicaveis
+EUA
+2005
+134
+Brokeback Mountain 
+Romance
+Dois amigos, após passarem dias numa montanha, descobrem um grande amor
+Canadá, EUA
+2010
+108
+Black Swan
+Drama
+É um thriller psicologico, que se passa em NY, com um grupo de bailarinas.
+EUA
+2004
+123
+The Notebook
+Drama
+Um jovem le, todos os dias, o velho diario de uma Senhora.
+EUA
+2012
+112
+Intouchables
+Drama
+Um filântropo milionário tetraplégico precisa de um cuidador, o qual acaba se tornando um grande amigo.
+França
+2006
+136
+Walk the Line
+Biografico
+História biografica de Johnny Cash
+Alemanha, EUA
+2014
+135
+12 Years a Slave
+Drama
+Conta a história de um homem, negro, que vivia e sobreviveu as tensões da pré-Guerra Civil norte-Americana
+EUA
+2001
+125
+A Viagem de Chihiro
+Animação
+Uma menina e sua família mudam-se de cidade, porém, coisas estranhas acontecem no caminho
+Japão
+2008
+122
+No Country for Old Men 
+Policial
+Texas dos anos 80, onde um traficante é encontrado.
+EUA
+1976
+111
+The Omen
+Terror
+Kathy Thorn da a luz a um bebe, que aparentemente, possui o anticrísto no corpo.
+Reino Unido
+1979
+117
+Alien
+Terror
+Um grupo de astronautas se ve preso com um Alien
+EUA, Reino Unido
+2000
+102
+American Psycho
+Drama
+Um banqueiro rico que é um assassino serial
+EUA
+1991
+136
+Terminator 2
+Ação
+Um robô do futuro chega com objetivo de salvar aqueles que um dia tentou exterminar
+EUA
+2007
+148
+Into the Wild
+Drama
+Inicio da decada de 90, um jovem promissor foge de casa para viver longe das cidades
+EUA
+2008
+94
+The Boy in the Striped Pyjamas 
+Drama
+História de dois meninos, um judeu e outro alemão, que se conhecem em um campo de concentração
+EUA, Inglaterra
+2012
+100
+The Artist
+Drama
+Uma homenagem ao cinema mudo
+França, Belgica, EUA
+1988
+86
+Meu Amigo Totoro 
+Animação
+Uma jovem garota encontra uma passagem para outro mundo em seu quintal
+Japão
+1981
+85
+The Evil Dead
+Trash
+Grupo de jovens descobre um livro amaldiçoado e liberta um demonio
+EUA
+2013
+112
+The Conjuring
+Terror
+Casal de caça fantasmas encontra um fantasmas muito forte
+EUA
+2000
+104
+O Auto da Compadecida
+Comédia
+Conta as aventuras de João Grilo e Chicó
+Brasil
+1998
+143
+The Devil's Advocate
+Drama
+Um jovem advogado de defesa que nunca perdeu uma causa, por pior que seja o crime cometido por seus clientes.
+EUA
+2014
+134
+Fury
+Guerra
+História de um grupo de assalto, que tem um tanque de guerra na segunda Guerra
+China, EUA
+2015
+120
+Chappie
+Ação
+História de um grupo de ciêntistas que constroi um robo
+México, EUA
+2014
+168
+Interstellar
+Scyfi
+Na tentativa de salvar a humanidade, um grupo é enviado ao espaço sideral
+EUA, Inglaterra
+2013
+101
+O lobo atras da Porta
+Suspense
+Um motorista de onibus envolve-se com uma mulher
+Brasil
+2015
+94
+Inside Out
+Animacao
+Uma animacao diferente,que mostra os sentimentos de uma garotinha
+EUA
+2015
+124
+Jurassik World
+Acao
+Um novo parque de dinossauros esta aberto
+EUA
+2015
+114
+Que horas ela volta?
+Nacional
+Mostra a vida de uma domestica
+Brasil
+2014
+106
+Whiplash
+Drama
+Andrew  eh um jovem baterista, que almeja o topo
+EUA
+2014
+129
+Kingsman
+Aventura
+Uma organizacao secreta, chamada Kingsman.
+Inglaterra
+2015
+120
+Mad Max
+Acao
+Um mundo pos-apocaliptico que mostra uma sociedade que venera os carros
+EUA, Australia
+1902
+14
+Le Voyage Dans La Lune
+Aventura
+Uma expedicao de corajosos homens vai a Lua
+Franca
+1922
+94
+Nosferatu
+Terror
+Um monstro eh encontrado em um castelo a venda
+Alemanha
+1925
+95
+The Gold Rush
+Aventura
+No Alasca, Carlito tenta a sorte como garimpeiro
+EUA
+2014
+165
+Boyhood
+Drama
+Filmado em 12 anos, mostra a vida de um garoto
+EUA
+2000
+88
+Scary Movie
+Comedia
+Satira do filme Panico
+EUA
+2000
+88
+Scream
+Terror
+Um novo serial Killer esta na cidade
+EUA
+1997
+116
+La Vita e Bella
+Romance
+Italia, anos 40, Guido eh levado a um campo de concentracao
+Italia
+1985
+97
+The Brakfast Club
+Comedia
+Um grupo de 5 alunos esta na detencao
+EUA
+2008
+114
+Deixa ela entrar
+Terror
+Um garoto apaixona-se por uma menina, no minimo, estranha
+Suecia
+2008
+104
+Yes Man
+Comedia
+Mostra a jornada de um homem, que assume a filosofia do Sim
+Australia, EUA
+2012
+103
+The Perks of Being a Wallflower
+Drama
+Mostra a historia de um adolescente timido, que apaixona-se
+EUA
+2014
+106
+If I stay
+Um jovem tem uma dificil decisao, faculdade ou o amor de sua vida
+Drama
+EUA
+2007
+113
+Superbad
+Comedia
+Um grupo de jovens quer sair e se divertir
+EUA
+2010
+98
+How to Train your Dragon
+Animacao
+Uma tribo Viking luta contra dragaos
+EUA
+1976
+119
+Rocky
+Esporte
+Um boxeador amador enfrenta o campeao mundial
+EUA
+2004
+113
+The Butterfly Effect
+Drama
+Evan se da conta que pode mudar o seu passado
+EUA, Canada
+2005
+132
+V for Vendetta
+Acao
+Uma inglaterra distopica tem um vigilante anarquista
+Alemanha, EUA, Inglaterra
+1989
+128
+Dead Poets Society
+Drama
+Um professor cria um grupo de poesias
+EUA
+2015
+105
+Me and Warl and the Dying Girl
+Drama
+Um garoto eh obrigado a acompanhar uma moca com cancer
+EUA
+2001
+113
+Donnie Darko
+Drama
+Uma historia sombria no final dos anos 80
+EUA
+1991
+118
+The Silence of the Lambs
+Drama
+Jovem novata do FBI precisa da ajuda de um serial killer para resolver seu caso
+EUA
+2013
+179
+Le vie d'Adele
+Drama
+Menina "direita" descobre-se lesbica
+Franca
+2007
+96
+Persepolis
+Animacao
+Uma garota iraniana sonha em se tornar uma profetiza
+Franca, EUA
+2000
+189
+The Green Mile
+Drama
+Historia de um guarda de um corredor da morte e um inocente
+EUA
+2013
+142
+The Great Gatsby
+Romance
+Um aspirante a escritor conhece O Grande Gatsby
+EUA, Australia
+2012
+165
+Django Unchained
+Faroeste
+Django eh um escravo liberto que se junta a um cacador
+EUA
+2013
+114
+The Secret Life of Walter Mitty
+Aventura
+Mitty eh o responsavel de um departamento de fotografia
+EUA
+2000
+113
+Memento
+Misterio
+Homem sem memoria tenta lembrar-se de sua vida
+EUA
+1984
+105
+Star Trek 3: The Search for Spock
+Scyfi
+Depois de derrotar Khan, a equipe da Enteprise vai em busca de Spock
+EUA
+2013
+132
+Star Trek into Darkness
+Scyfi
+Um poderoso vilao esta em busca de destruir a frota estelar
+EUA
+1982
+113
+Star Trek: The Wrath of Khan
+Scyfi
+Kirk enfrenta uma crise de meia idade, quando Khan volta para derrota-lo
+EUA
+2016
+147
+Captain America: Civil War
+Acao
+Tentando supervisionar os Vingadores, o governo cria uma lei
+EUA
+2015
+115
+Pawn Sacrifice
+Biografia
+Historia do emblematico combate entre Bobby Fischer e Boris Spassky
+EUA
+2011
+131
+X-men: First Class
+Acao
+Antes dos mutantes se revelarem ao mundo, existia Xavier e Erik
+EUA, Inglaterra
+2011
+124
+Captain America: First Avenger
+Acao
+Historia do primeiro heroi da Marvel, o Capitao America
+EUA
+2014
+102
+Big Hero 6
+Animacao
+Um robo nada comum ajuda o irmao de seu inventor
+EUA
+2008
+125
+Iron Man
+Acao
+Historia de como Tony Stark se tornou o Homem de Ferro
+EUA
+2012
+127
+Life of Pi
+Aventura
+A familia de Pi, dona de um zoologico, decide vende-lo e partir rumo ao Canada
+Canada, EUA, Taiwan
+2010
+138
+Shutter Island
+Terror
+Uma dupla de agentes federais investiga o desaparecimento de uma assassina que estava hospitalizada
+EUA
+2000
+155
+Gladiator
+Aventura
+Nos dias finais do reinado de Marcus Aurelis, o imperador desperta a ira de seu filho ao deixar o trono para seu melhor general
+EUA, Inglaterra
+2011
+126
+Hugo
+Misterio
+Hugo eh uma crianca de 12 anos que vive em uma estacao de trem em Paris , no comeco do seculo 20
+EUA
+2004
+170
+The Aviator
+Biografia
+Howard Hughes ficou milionario aos 18 anos, devido a uma heranca. Apos isso, passa a investir na industria do cinema
+EUA, Alemanha
+2011
+133
+J. Edgar
+Biografia
+Filme biografico de J. Edgar, fundador do FBI
+EUA
+2005
+140
+Batman Begins
+Acao
+Marcado pelo assassinato de seus pais quando ainda era crianca, o milionario Bruce Wayne decide combater o crime
+EUA, Reino Unido
+2009
+162
+Watchmen
+Acao
+"Watchmen" ‚ situado em uma Am‚rica alternativa de 1985, na qual super-her¢is fantasiados sao parte da estrutura comum da sociedade, e o "Relogio do Ju¡zo Final" que marca a tensÆo entre os Estados Unidos e a UniÆo Sovi‚tica ‚ permanentemente acertado em cinco minutos para a meia-noite.
+EUA
+2006
+98
+A Garota que Conquistou o Tempo
+Animacao
+Makoto Konno eh uma garota japonesa que esta sempre atrasada para tudo, ate que um dia ela descobre ter o poder de viajar no tempo
+Japao
+2001
+101
+The Others
+Terror
+Durante a 2 Guerra Mundial, Grace (Nicole Kidman) decide por se mudar, juntamente com seus dois filhos, para uma mansÆo isolada na ilha de Jersey, a fim de esperar que seu marido retorne da guerra.
+Espanha, EUA, Franca
+1980
+128
+Raging Bull
+Biografia
+O pugilista peso-medio Jake LaMotta (Robert De Niro), chamado de "o touro do Bronx", sobe na carreira com a mesma rapidez com que sua vida particular se degrada, gra‡as ao seu temperamento violento e possessivo.
+EUA
+2006
+151
+The Departed
+Policial
+A policia trava uma verdadeira guerra contra o crime organizado em Boston. Billy Costigan (Leonardo DiCaprio), um jovem policial, recebe a missao de se infiltrar na m fia, mais especificamente no grupo comandado por Frank Costello (Jack Nicholson). 
+EUA, Hong Kong
+1976
+113
+Taxi Driver
+Policial
+Travis Bickle (Robert DeNiro) ‚ um jovem veterano do Vietna, que volta para as ruas de Nova York trabalhando como motorista de t xi.
+EUA
+2012
+91
+Hotel Transylvania
+Animacao
+Animacao sobre um hotel de luxo, o qual abriga apenas monstros
+EUA
+2008
+152
+The Dark Knight
+Policial
+Apos dois anos desde o surgimento do Batman (Christian Bale), os criminosos de Gotham City tem muito o que temer. Com a ajuda do tenente James Gordon (Gary Oldman) e do promotor p£blico Harvey Dent (Aaron Eckhart), Batman luta contra o crime organizado. Acuados com o combate, os chefes do crime aceitam a proposta feita pelo Coringa (Heath Ledger) e o contratam para combater o Homem-Morcego
+EUA

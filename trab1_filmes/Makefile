@@ -30,7 +30,7 @@ endif
 
 
 CC=gcc
-CFLAGS= -I./$(INCDIR) 
+CFLAGS=-O3 -g -I./$(INCDIR) 
 
 LIBS=-lm
 
