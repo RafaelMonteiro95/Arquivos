@@ -254,7 +254,9 @@ void buildBinFile(FILE* bin, FILE* txt, FILE* smp)
 		return;
 	}
 
-	//preparo os arquivos para escrita
+	/* Preparando os arquivos para escrita 
+	Verifico se os ponteiros são diferentes de NULL antes de 
+		tentar seta-los para o inicio da stream*/
 	if(bin)fseek(bin,0L,SEEK_SET);
 	if(smp)fseek(smp,0L,SEEK_SET);
 	
