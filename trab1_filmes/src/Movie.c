@@ -4,12 +4,7 @@
 	LUCAS ALEXANDRE SOARES	9293265
 	RAFAEL AUGUSTO MONTEIRO	9293095
 */
-
-/* A flag 'debug' r setada quando o programa e compilado no modo debug
-(make debug=1). Esta flag e usada para escolher se codigo de debug 
-deve ou nao ser compilada, alem das flags extras de compilacao e debug
-como -g e -Wall */
-
+	
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

@@ -76,6 +76,8 @@ int main(int argc, char* argv[])
 	} else {
 
 		printf("Done!\n");
+		//aviso caso um arquivo exemplo seja gerado
+		if(smp) printf("Um arquivo \"exemplo.txt\" sera gerado nessa execucao\n");
 
 		/*as opcoes 2 e 3 do menu nao fazem sentindo sem um arquivo dados.bin
 					logo, inicializo um arquivo inicial.*/
