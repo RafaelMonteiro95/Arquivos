@@ -10,31 +10,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//caractere utilizado como delimitador de registros
+// caractere utilizado como delimitador de registros
 #define REG_DELIM '#'
-//caractere utilizado como delimitador de campos
+// caractere utilizado como delimitador de campos
 #define FIELD_DELIM '|'
 
-/*Struct que representa o registro de um filme
-	Campos:
-		int idFilme: 		ID do filme
-		int anoLancamento: 	Ano de lancamento do filme
-		int duracaoFilme: 	Tempo de duracao do filme, em minutos
-		char* generoFilme: 	Genero(s) do filme. 
-		char* tituloFilme: 	Titulo do filme
-		char* descFilme: 	Descricao do filme
-		char* producao: 	Pais(es) de producao do filme
-*/
-typedef struct filme
-{
-	int idFilme;
-	int anoLancamento;
-	int duracaoFilme;
-	char *generoFilme;
-	char *tituloFilme;
-	char *descFilme;
-	char *producao;
-}Filme;
+// Struct que representa o registro de um filme
+typedef struct filme Filme;
 
 // Construtor e Destrutor da estrutura Filme
 Filme *Inicialize_Struct();

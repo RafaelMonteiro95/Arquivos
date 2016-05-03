@@ -34,7 +34,11 @@ endif
 
 
 CC=gcc
+<<<<<<< HEAD
 CFLAGS=-O3 -Wno-unused-result -I./$(INCDIR) 
+=======
+CFLAGS=-O3 -g -Wno-unused-result -I./$(INCDIR) 
+>>>>>>> joegs
 
 LIBS=-lm
 
