@@ -116,8 +116,6 @@ Filme* getFilme(FILE* fp){
 Filme* getFilmeById(FILE* fp, int id){
 
 	Filme* filme = Inicialize_Struct();
-	char* buffer = malloc(sizeof(char)*500);
-	int searchId;
 
 	while(fgetc(fp) != EOF){ //busco enquanto o arquivo nao acabar
 

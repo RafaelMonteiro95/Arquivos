@@ -4,6 +4,12 @@
 	LUCAS ALEXANDRE SOARES	9293265
 	RAFAEL AUGUSTO MONTEIRO	9293095
 */
+
+/* A flag 'debug' r setada quando o programa e compilado no modo debug
+(make debug=1). Esta flag e usada para escolher se codigo de debug 
+deve ou nao ser compilada, alem das flags extras de compilacao e debug
+como -g e -Wall */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -125,7 +131,7 @@ int* Rand_Num()
 	Parametros: 
 		FILE*  fp: ponteiro do arquivo utilizado
 		char* str: ponteiro da string com o texto a ser escrito
-	Retorno: nenhum*/
+	Retorno: nenhum */
 void fprintf_str(FILE* fp, char* str)
 {
 	int i = 0;
@@ -135,8 +141,6 @@ void fprintf_str(FILE* fp, char* str)
 		fprintf(fp,"%c",str[i++]);
 	}
 }
-
-/*
 
 /*	Funcao que lê uma string de um arquivo textual
 	a leitura é realizada até que um caractere '\n' seja encontrado
@@ -222,7 +226,7 @@ void seekToRandomPos(FILE* fp, char* used)
 /*Funcao que preenche um arquivo binario de dados com base em um
 	arquivo de texto
 	O nome do arquivo será "dados.bin"
-	Eh gerado tambem um arquivo textual "exemplo.txt" que 
+	Eh gerado tambem um arquivo textual "debug.txt" que 
 		exemplifica como os dados sao armazenados no arquivo binario
 	Parametros:
 		FILE* bin: ponteiro do arquivo binario utilizado
@@ -232,15 +236,12 @@ void seekToRandomPos(FILE* fp, char* used)
 */
 void buildBinFile(FILE* bin, FILE* txt)
 {
-	char strBuffer[1000] = {0};
 	int* randomIds = NULL;
 	char* alreadyUsed;
 	int readCount;
 	Filme* f;
 	char endField = FIELD_DELIM;
 	char endRegister = REG_DELIM;
-	FILE* debug = fopen("exemplo.txt","w");
-
 
 	//verifico se os parametros dados sao validos
 	if(bin == NULL){
@@ -248,10 +249,13 @@ void buildBinFile(FILE* bin, FILE* txt)
 		return;
 	}
 
+#ifdef debug
+	FILE* debug = fopen("exemplo.txt","w");
 	if(txt == NULL){
 		fprintf(stderr,"Invalid txt file pointer.\n");
 		return;
 	}
+#endif
 	
 	/*seto semente de rand como time(NULL) para geracao de id e
 		insercao no arquivo binario de forma aleatoria*/
@@ -299,6 +303,7 @@ void buildBinFile(FILE* bin, FILE* txt)
 		fwrite(&endField, sizeof(char), 1 , bin); //DELIMITADOR DE CAMPO
 		fwrite(&endRegister, sizeof(char), 1 , bin); //DELIMITADOR DE REGISTRO
 
+#ifdef debug
 		//escrevo no arquivo de debug, para facilitar a compreensao
 		fprintf(debug,"%d",f->idFilme); //ID
 		fprintf(debug,"%d",f->anoLancamento); //ANO
@@ -312,10 +317,14 @@ void buildBinFile(FILE* bin, FILE* txt)
 		fprintf_str(debug,f->producao); //PRODUCAO
 		fprintf(debug,"%c",endField); //DELIMITADOR DE CAMPO
 		fprintf(debug,"%c",endRegister); //DELIMITADOR DE REGISTRO
+#endif
+
 	}
 
+#ifdef debug
+	fclose(debug);
+#endif
 	free(alreadyUsed);
 	free(randomIds);
-	fclose(debug);
 	Destroy_Struct(&f);
 }

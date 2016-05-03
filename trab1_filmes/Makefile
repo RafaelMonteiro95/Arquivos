@@ -30,7 +30,7 @@ endif
 
 
 CC=gcc
-CFLAGS=-O3 -g -I./$(INCDIR) 
+CFLAGS=-O3 -Wno-unused-result -I./$(INCDIR) 
 
 LIBS=-lm
 
@@ -61,6 +61,8 @@ clean:
 	-rm -f $(OBJDIR)/*.o
 	-rm -f $(NAME).zip
 	-rm -f $(NAME).tar.gz
+	-rm -f debug.txt
+	-rm -f dados.bin
 	mkdir -p $(OBJDIR)
 	mkdir -p $(BLDDIR)
 	clear
