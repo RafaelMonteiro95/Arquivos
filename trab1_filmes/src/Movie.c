@@ -234,7 +234,7 @@ void seekToRandomPos(FILE* fp, char* used)
 	Retorno:
 		FILE* bin: ponteiro do arquivo binario gerado 
 */
-void buildBinFile(FILE* bin, FILE* txt)
+void buildBinFile(FILE* bin, FILE* txt, FILE* smp)
 {
 	int* randomIds = NULL;
 	char* alreadyUsed;
@@ -249,13 +249,14 @@ void buildBinFile(FILE* bin, FILE* txt)
 		return;
 	}
 
-#ifdef debug
-	FILE* debug = fopen("exemplo.txt","w");
 	if(txt == NULL){
 		fprintf(stderr,"Invalid txt file pointer.\n");
 		return;
 	}
-#endif
+
+	//preparo os arquivos para escrita
+	if(bin)fseek(bin,0L,SEEK_SET);
+	if(smp)fseek(smp,0L,SEEK_SET);
 	
 	/*seto semente de rand como time(NULL) para geracao de id e
 		insercao no arquivo binario de forma aleatoria*/
@@ -303,27 +304,26 @@ void buildBinFile(FILE* bin, FILE* txt)
 		fwrite(&endField, sizeof(char), 1 , bin); //DELIMITADOR DE CAMPO
 		fwrite(&endRegister, sizeof(char), 1 , bin); //DELIMITADOR DE REGISTRO
 
-#ifdef debug
-		//escrevo no arquivo de debug, para facilitar a compreensao
-		fprintf(debug,"%d",f->idFilme); //ID
-		fprintf(debug,"%d",f->anoLancamento); //ANO
-		fprintf(debug,"%d",f->duracaoFilme); //DURACAO
-		fprintf_str(debug,f->tituloFilme); //TITULO
-		fprintf(debug,"%c",endField); //DELIMITADOR DE CAMPO
-		fprintf_str(debug,f->generoFilme); //GENERO
-		fprintf(debug,"%c",endField); //DELIMITADOR DE CAMPO
-		fprintf_str(debug,f->descFilme); //DESCRICAO
-		fprintf(debug,"%c",endField); //DELIMITADOR DE CAMPO
-		fprintf_str(debug,f->producao); //PRODUCAO
-		fprintf(debug,"%c",endField); //DELIMITADOR DE CAMPO
-		fprintf(debug,"%c",endRegister); //DELIMITADOR DE REGISTRO
-#endif
+		//caso o arquivo de exemplo tenha sido solicitado, escrevo nele
+		if(smp){
+			fprintf(smp,"%d",f->idFilme); //ID
+			fprintf(smp,"%d",f->anoLancamento); //ANO
+			fprintf(smp,"%d",f->duracaoFilme); //DURACAO
+			fprintf_str(smp,f->tituloFilme); //TITULO
+			fprintf(smp,"%c",endField); //DELIMITADOR DE CAMPO
+			fprintf_str(smp,f->generoFilme); //GENERO
+			fprintf(smp,"%c",endField); //DELIMITADOR DE CAMPO
+			fprintf_str(smp,f->descFilme); //DESCRICAO
+			fprintf(smp,"%c",endField); //DELIMITADOR DE CAMPO
+			fprintf_str(smp,f->producao); //PRODUCAO
+			fprintf(smp,"%c",endField); //DELIMITADOR DE CAMPO
+			fprintf(smp,"%c",endRegister); //DELIMITADOR DE REGISTRO	
+		}
+
 
 	}
 
-#ifdef debug
-	fclose(debug);
-#endif
+	//libero memoria utilizada
 	free(alreadyUsed);
 	free(randomIds);
 	Destroy_Struct(&f);

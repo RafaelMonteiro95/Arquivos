@@ -59,7 +59,7 @@ char *GetTitle(Filme *f);
 char *GetDescription(Filme *f);
 
 // Funcao de geracao de arquivo binario
-void buildBinFile(FILE* bin, FILE* txt);
+void buildBinFile(FILE* bin, FILE* txt, FILE* smp);
 
 // Funcoes de leitura de arquivo
 Filme* getFilme(FILE* fp);

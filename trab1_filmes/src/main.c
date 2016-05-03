@@ -34,10 +34,11 @@ int checkInput()
 	}
 }
 
-int main()
+int main(int argc, char* argv[])
 {
 	FILE* txt = NULL;
 	FILE* bin = NULL;
+	FILE* smp = NULL;
 	Filme* temp;
 	int op;
 	int id;
@@ -51,11 +52,25 @@ int main()
 	txt = fopen("moviedb.txt","r");
 	//arquivo com os registros guardados em binario
 	bin = fopen("dados.bin","wb+");
+	//arquivo com os registros guardados como texto, para exemplo
+	if(argc == 2){
+		if(!strcmp(argv[1],"exemplo")){
+			/*caso seja utilizado o parametro "exemplo" na execucao do 
+			programa, abro o arquivo exemplo.txt*/
+			smp = fopen("exemplo.txt","w");
+		}
+	}
+
 
 	//verifico se os FILE* são nulos(ou seja, deu erro na leitura do arquivo)
-	if(!bin || !txt){
+	if(!bin){
 
-		printf("Erro!\nProblema na abertura do arquivo\n");
+		printf("Erro!\nProblema na abertura do arquivo binario\n");
+		return 1;
+
+	} else if(!txt) {
+		
+		printf("Erro!\nProblema na abertura do arquivo \"moviedb.txt\"\n");
 		return 1;
 
 	} else {
@@ -65,7 +80,7 @@ int main()
 		/*as opcoes 2 e 3 do menu nao fazem sentindo sem um arquivo dados.bin
 					logo, inicializo um arquivo inicial.*/
 		printf("Inserindo os registros de moviedb.txt para dados.bin...");
-		buildBinFile(bin,txt);
+		buildBinFile(bin,txt,smp);
 		printf("Done!\n\n");
 
 		do{
@@ -74,11 +89,9 @@ int main()
 			switch(op){
 
 				case 1: //gerar 100 registros
-					fclose(bin); //fecho o arquivo bin atual
-					bin = fopen("dados.bin","wb+"); //gero um novo
 
 					printf("\nInserindo os registros de moviedb.txt para dados.bin...");
-					buildBinFile(bin,txt);
+					buildBinFile(bin,txt,smp);
 					printf("Done!\n\n");
 
 					getchar(); //limpando buffer da stdin
@@ -135,6 +148,11 @@ int main()
 	//fecho os arquivos usados
 	fclose(bin);
 	fclose(txt);
+	if(argc == 2){
+		if(!strcmp(argv[1],"exemplo")){
+			fclose(smp);
+		}
+	}
 	return 0;
 }
 

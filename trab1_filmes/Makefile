@@ -28,6 +28,10 @@ ifdef OUT
 OUTPUT= > $(OUT)
 endif
 
+ifdef ARGS
+ARGUMENTS= $(ARGS)
+endif
+
 
 CC=gcc
 CFLAGS=-O3 -Wno-unused-result -I./$(INCDIR) 
@@ -50,10 +54,9 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c $(DEPS)
 main: $(OBJ)
 	@echo Linking object files
 	@$(CC) -o $(BLDDIR)/$(NAME) $^ $(CFLAGS) $(LIBS)
-
 # Run directives
 run:
-	$(DEBUGGER) ./$(BLDDIR)/$(NAME) $(INPUT) $(OUTPUT)
+	$(DEBUGGER) ./$(BLDDIR)/$(NAME) $(ARGUMENTS) $(INPUT) $(OUTPUT)
 
 # Utility directives
 clean:
@@ -61,7 +64,7 @@ clean:
 	-rm -f $(OBJDIR)/*.o
 	-rm -f $(NAME).zip
 	-rm -f $(NAME).tar.gz
-	-rm -f debug.txt
+	-rm -f exemplo.txt
 	-rm -f dados.bin
 	mkdir -p $(OBJDIR)
 	mkdir -p $(BLDDIR)
