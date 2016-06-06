@@ -9,6 +9,7 @@
 #include <string.h>
 
 #include "Movie.h"
+#include "btree.h"
 
 /*	Funcao que exibe um menu para o usuario e retorna um inteiro com a
 		opcao escolhida
