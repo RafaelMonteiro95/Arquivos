@@ -11,6 +11,7 @@
 #include <time.h>
 
 #include "Movie.h"
+#include "btree.h"
 
 /*Struct que representa o registro de um filme
 	Campos:
@@ -252,6 +253,7 @@ void seekToRandomPos(FILE* fp, char* used)
 */
 void buildBinFile(FILE* bin, FILE* txt, FILE* smp)
 {
+	bTree* bt = newBTree();
 	int* randomIds = NULL;
 	char* alreadyUsed;
 	int readCount;
@@ -289,7 +291,8 @@ void buildBinFile(FILE* bin, FILE* txt, FILE* smp)
 
 	//leio 100 registros do arquivo de texto
 	for(readCount = 0; readCount < 100; readCount++){
-
+		printf("==========\n");
+		printf("readcount: %d\n",readCount);
 		//preciso dar seek para um registro aleatorio do arquivo txt
 		//para isso, vou salvar em um vetor quais "RRNs" ja foram colocados
 		//depois, dou seek até aquela posicao
@@ -309,6 +312,8 @@ void buildBinFile(FILE* bin, FILE* txt, FILE* smp)
 		// fscanf(txt,"%[^\n]s",f->producao); //le pais de producao
 
 		//escrevo os dados de f no arquivo binario
+		int offset = ftell(bin);
+		insertBTree(bt,f->idFilme,offset);
 		fwrite(&f->idFilme, sizeof(int), 1 , bin); //ID
 		fwrite(&f->anoLancamento, sizeof(int), 1 , bin); //ANO
 		fwrite(&f->duracaoFilme, sizeof(int), 1 , bin); //DURACAO
@@ -449,7 +454,6 @@ Filme* getFilme(FILE* fp){
 	Retorno: Filme* filme: ponteiro da estrutura filme encontrada
 				NULL caso o ID nao seja encontrado*/
 Filme* getFilmeById(FILE* fp, int id){
-
 	Filme* filme = Inicialize_Struct();
 	char* buffer = malloc(sizeof(char)*500);
 	int searchId;
